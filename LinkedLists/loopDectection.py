@@ -3,6 +3,16 @@
 from _Class import LinkedList, Node
 
 #? Floyd's Turtoise and Hare algorithm:
+# * Proof that putting a node at the beginning once `fast` meets `slow`, then increment them both again, can help detect start of cycle:
+# Define: 
+# x: number of nodes before cycle
+# y: number of nodes `slow` travels in the cycle before meeting `fast`
+# z: number of nodes in the cycle - y
+# We know:
+# dist_slow = x + y
+# dist_fast = x + y + z + y
+# dist_fast = 2 * dist_slow
+# => Easily show that x = z
 def loopDetection(ll: LinkedList) -> Node:
     if not ll.head: return None
 
@@ -12,10 +22,15 @@ def loopDetection(ll: LinkedList) -> Node:
         fast = fast.next.next
 
         if slow == fast:
-            return True
+            # Loop detected. Find cycle's start by putting another pointer at the beginning of linked list.
+            slow = ll.head
+            while slow != fast:
+                slow = slow.next
+                fast = fast.next
+            return slow
 
     # Hit null. Must not have a loop
-    return False
+    return None
 
 # -- No loop --
 ll = LinkedList(None)

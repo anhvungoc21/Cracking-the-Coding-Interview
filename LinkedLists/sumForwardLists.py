@@ -79,6 +79,11 @@ def sumForwardLists(l1: LinkedList, l2: LinkedList) -> LinkedList:
 l1 = LinkedList(None)
 l2 = LinkedList(None)
 
+#! MISSED THIS: All 9s. Carry over at all steps => Need to pad the shorter list with 0s and then recurse through both lists simultaneously.
+l1.fromList([9, 9, 9, 9, 9, 9, 9]) # 9999999
+l2.fromList([9, 9, 9, 9]) # 9999
+print(sumForwardLists(l1, l2)) # 89990001 - correct!
+
 # Testing carry over to all meaningful positions
 l1.fromList([1, 2, 8, 3]) # 1283
 l2.fromList([9, 5, 4]) # 954

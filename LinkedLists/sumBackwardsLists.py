@@ -1,45 +1,48 @@
 # Two numbers are represented by a linked list, where each node contains a single digit. The digits are stored in reverse order, that is the 1's digit is at the head of the list. Write a function that adds the two numbers and returns the sum as a linked list.
 
 from _Class import LinkedList, Node
+def total(v1: int, v2: int, carryOver):
+    total = v1 + v2 + carryOver
+    digit = total % 10
+    carryOver = total // 10
+    return digit, carryOver
 
 def sumBackwardsLists(l1: LinkedList, l2: LinkedList) -> LinkedList:
-    p1 = l1.head
-    p2 = l2.head
-    if not p1 or not p2: return None
+    cur1 = l1.head
+    cur2 = l2.head
+    if not cur1 or not cur2: return None
 
     prev = None
     carryOver = 0
-    while p1 and p2:
-        # Compute sum and reset carry-over
-        mySum = p1.data + p2.data + carryOver
-        carryOver = 0
 
-        # Check sum
-        if mySum >= 10:
-            carryOver = 1
-            mySum = mySum % 10
+    # Iterate over same length
+    while cur1 and cur2:
+        digit, carryOver = total(cur1.data, cur2.data, carryOver)
 
-        # Store result in both lists
-        p1.data = mySum
-        p2.data = mySum
-        prev = p1 # Keep the last node of a list in case both lists run out and need to add carry over
-        p1 = p1.next
-        p2 = p2.next
+        # Set both linkedlists in case we return either
+        cur1.data = digit
+        cur2.data = digit
+        
+        prev = cur1
+        cur1 = cur1.next
+        cur2 = cur2.next
 
-    # Equal lengths. Check if need to add carry-over node
-    if not p1 and not p2: 
-        if carryOver:
-            prev.next = Node(carryOver)
-        return l1
+    # When cur1 == cur2 == None, return l1 since prev is set to cur1
+    toRet = l2 if cur2 else l1
 
-    # Add carry-over if needed and return the remaining list.
-    # The rest of the list needs no adjustments!
-    if not p1:
-        p2.data += carryOver
-        return l2
-    else:
-        p1.data += carryOver
-        return l1
+    # Add the rest
+    cur = cur2 if cur2 else cur1
+    while cur:
+        digit, carryOver = total(cur.data, 0, carryOver)
+        cur.data = digit
+        prev = cur
+        cur = cur.next
+
+    # Check if still has carryOver. Create extra node for 1
+    if carryOver != 0:
+        prev.next = Node(carryOver)
+
+    return toRet
 
 l1 = LinkedList(None)
 l2 = LinkedList(None)
@@ -58,6 +61,11 @@ print(sumBackwardsLists(l1, l2)) # 1237 - correct!
 l1.fromList([3, 2, 1]) # 123
 l2.fromList([7, 5, 4]) # 457
 print(sumBackwardsLists(l1, l2)) # 580  - correct!
+
+#! MISSED THIS: All 9s. Carry over at all steps
+l1.fromList([9, 9, 9, 9, 9, 9, 9]) # 9999999
+l2.fromList([9, 9, 9, 9]) # 9999
+print(sumBackwardsLists(l1, l2)) # 89990001 - correct!
 
 # Both singleton, with carry over
 l1.fromList([5]) # 5
