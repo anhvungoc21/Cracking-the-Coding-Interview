@@ -74,7 +74,7 @@ def find_ancestor(root, p, q):
         return root, True
     # ? Current root is p or q. If sub-tree also has sth, then it must be the other one. Current root is ancestor!
     elif root == p or root == q:
-        return root, right_found or left_found
+        return root, right_root or left_root
     # Bubble up any potentially non-null root. Haven't found ancestor yet.
     else:
         return right_root if right_root else left_root, False
