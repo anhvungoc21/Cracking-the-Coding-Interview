@@ -1,2 +1,2 @@
 # Cracking the Coding Interview
-This repository contains my solutions to problems in CTCI. Aside from the code solutions, I also keep my thought processes, observations, assumptions, and errors I made during the process of solving these questions. Just a personal archive that might help people who come across understand how I go about solving technical problems!
+This repository contains my solutions to problems in CTCI. Aside from the code solutions, I also keep a record of my thought processes, observations, assumptions, and errors I made in the process. Just a personal archive that might help people who come across understand how I go about solving technical problems!
